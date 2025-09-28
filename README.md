@@ -47,7 +47,40 @@ Steps:
 2. Type `done` when schema input is complete.  
 3. Ask natural language questions.  
 4. The program will output the corresponding SQL queries.  
-5. Type `exit` or `quit` to stop.  
+5. Type `exit` or `quit` to stop.
+
+Example Session:
+```bash
+Enter your database schema (CREATE TABLE statements).
+Type 'done' when finished.
+
+CREATE TABLE students (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INTEGER,
+    grade TEXT,
+    marks INTEGER,
+    date_of_admission DATE
+);
+
+CREATE TABLE courses (
+    course_id INTEGER PRIMARY KEY,
+    course_name TEXT NOT NULL,
+    student_id INTEGER,
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);
+done
+
+✅ Schema captured! Now ask your questions (type 'exit' to quit).
+
+Your question: Show all students with marks > 80
+
+➡️ Generated SQL:
+SELECT *
+FROM students
+WHERE marks > 80;
+
+```
 
 ---
 
@@ -60,7 +93,21 @@ python test_queries.py
 This will:
 - Load a sample schema (Students, Courses, Enrollments tables).  
 - Execute several test queries (e.g., list student names, find by age, join tables).  
-- Print the generated SQL for each query.  
+- Print the generated SQL for each query.
+  
+Example Output:
+```bash
+--- DBMS NLQ to SQL Test Suite ---
+Model: Google Gemini 2.5 Flash (via API)
+Schema: Students and Courses tables
+------------------------------------------------------------
+TEST 1
+  NLQ: Show all students with marks > 80
+  SQL: SELECT *
+       FROM students
+       WHERE marks > 80;
+```
+
 
 ---
 
